@@ -1,0 +1,163 @@
+%html
+  %head
+    %meta{charset: 'utf-8'}
+    %meta{name: 'viewport', content: 'width=1024'}
+    %meta{name: 'apple-mobile-web-app-capable', content: 'yes'}
+    %title Building DSLs with Ruby
+
+  %body
+    #impress
+      #one.step{'data-y' => -1200}
+        %q Building DSLs with Ruby
+
+      #approach.step{'data-y' => -1150}
+        %q One particular approach
+
+      #whatis.step{'data-y' => -600}
+        %q A DSL is a collection of
+
+      #two.step.slide{'data-y' => 100}
+        .slide_title Scopes and Methods
+        %pre.ruby
+          :preserve
+            thing :foo do
+              do_something
+              sub_thing :bar do
+                do_something or do_something_else
+              end
+            end
+        %br
+        %li.bullet What do :foo and :bar actually represent?
+        %li.bullet How do do_something and do_something_else know what to operate on?
+
+      #three.step.slide{'data-y' => 1000}
+        .header DSL Subjects and a Stack
+        %pre.ruby
+          :preserve
+            thing :foo do
+              ...
+            end
+        %li.bullet is meta-Ruby for...
+        %pre.ruby
+          :preserve
+            def thing(name, &block)
+              $stack.push( Thing.new(name) )
+              $stack.last.instance_exec(&block)
+            end
+
+      #four.step.slide{'data-y' => 1900}
+        .header instance_exec 
+        %li.bullet evaluates proc with `self` set to receiver
+        %li.bullet allows for cooler DSLs than the kind you may be used to
+        %pre.ruby
+          :preserve
+            configure do |c|
+              c.heese = 'cheese'
+            end
+        %li.bullet becomes
+        %pre.ruby
+          :preserve
+            configure do
+              heese = 'cheese'
+            end
+        %li.bullet ... OK that one looked better the old way
+
+      #five.step.slide{'data-y' => 2700}
+        .header DSLSubject
+        %li.bullet Subjects meant for stacking
+        %pre.ruby
+          :preserve
+            class DSLSubject
+              def initialize(name, opts = {})
+                @name = name
+                @opts = opts
+              end
+
+              def speak
+                puts "I am a \#{self.class} named \#{@name}"
+              end
+            end
+
+            class DSL
+              @@stack = []
+              def self.thing(name, opts = {}, &block)
+                @@stack.push( DSLSubject.new(name, opts) )
+                @@stack.last.instance_exec(&block)
+              end
+            end
+
+      #six.step.slide{'data-y' => 3800}
+        .header DSLSubject
+        %pre.ruby
+          :preserve
+            DSL.thing :foo do
+              speak
+            end
+        %li.bullet => "I am a DSLSubject named foo"
+
+      #seven.step.slide{'data-y' => 4500}
+        .header Danger!
+        %li.bullet what if my DSLSubject wants do be able to do things?
+        %pre.ruby
+          :preserve
+            def DSLSubject.end_world! # with a bang
+              end_the_world
+            end
+
+            DSL.thing :bar do
+              end_world!
+            end
+        %li.bullet suppose we didn't want users of our DSL to be able to carelessly end the world
+
+      #eight.step.slide{'data-y' => 5300}
+        .header DSLProxy
+        %li.bullet Every DSLSubject gets a DSLProxy
+        %pre.ruby
+          :preserve
+            class DSLSubject
+              def dsl_proxy
+                @dsl_proxy ||= DSLProxy.new(self)
+              end
+
+              def safely_end_world
+                file_for_world_ending_permit
+              end
+            end
+
+            class DSLProxy
+              def initialize(subject)
+                @subject = subject
+              end
+
+              def end_world!
+                @subject.safely_end_world
+              end
+            end
+
+      #nine.step.slide{'data-y' => 6100}
+        .header DSLProxy
+        %pre.ruby
+          :preserve
+            class DSL
+              @@stack = []
+              def self.thing(name, opts = {}, &block)
+                @@stack.push( DSLSubject.new(name, opts) )
+                @@stack.last.dsl_proxy.instance_exec(&block)
+              end
+            end
+
+            DSL.thing :baz do
+              end_world! # => DSLSubject#file_for_world_ending_permit
+            end
+
+
+    %script{src: 'http://kyle.pipe.vitrue.com/impress.js'}
+    %script{src: 'http://kyle.pipe.vitrue.com/jquery-1.7.1.min.js'}
+    %script{src: 'http://kyle.pipe.vitrue.com/jquery.snippet.min.js'}
+    %link{rel: 'stylesheet', href: 'css/diesel-prez.css'}
+    %link{rel: 'stylesheet', type: 'text/css', href: 'http://kyle.pipe.vitrue.com/jquery.snippet.min.css'}
+    :javascript
+      impress();
+      $(function() {
+        $('pre.ruby').snippet('ruby', {style: 'whatis', showNum: false});
+      });
