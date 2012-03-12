@@ -7,17 +7,18 @@
 
   %body
     #impress
-      #one.step{'data-y' => -1200}
+      #one.step{'data-y' => -1700}
         %q Building DSLs with Ruby
 
-      #approach.step{'data-y' => -1150}
+      #approach.step{'data-y' => -1650}
         %q One particular approach
 
-      #whatis.step{'data-y' => -600}
+      #whatis.step{'data-y' => -1000}
         %q A DSL is a collection of
 
-      #two.step.slide{'data-y' => 100}
-        .slide_title Scopes and Methods
+      %q.step{'data-y' => -450} Scopes and Methods
+
+      .step{'data-y' => -200}
         %pre.ruby
           :preserve
             thing :foo do
@@ -26,18 +27,22 @@
                 do_something or do_something_else
               end
             end
-        %br
-        %li.bullet What do :foo and :bar actually represent?
-        %li.bullet How do do_something and do_something_else know what to operate on?
 
-      #three.step.slide{'data-y' => 1000}
-        .header DSL Subjects and a Stack
+      .step{'data-y' => 400} 
+        %q.med What do :foo and :bar actually represent?
+      .step{'data-y' => 500}
+        %q.med How do do_something and do_something_else know what to operate on?
+
+      .step{'data-y' => 1200}
+        %q.med DSL Subjects and a Stack
         %pre.ruby
           :preserve
             thing :foo do
               ...
             end
-        %li.bullet is meta-Ruby for...
+
+      .step{'data-y' => 1600}
+        %q.med is just a method like
         %pre.ruby
           :preserve
             def thing(name, &block)
@@ -45,16 +50,16 @@
               $stack.last.instance_exec(&block)
             end
 
-      #four.step.slide{'data-y' => 1900}
-        .header instance_exec 
-        %li.bullet evaluates proc with `self` set to receiver
-        %li.bullet allows for cooler DSLs than the kind you may be used to
+      .step.slide{'data-y' => 2500}
+        %q instance_exec 
+        %li.small evaluates proc with `self` set to receiver
+        %li.small allows for cooler DSLs than the kind you may be used to
         %pre.ruby
           :preserve
             configure do |c|
               c.heese = 'cheese'
             end
-        %li.bullet becomes
+        %li.bullet becomes...
         %pre.ruby
           :preserve
             configure do
@@ -62,9 +67,21 @@
             end
         %li.bullet ... OK that one looked better the old way
 
-      #five.step.slide{'data-y' => 2700}
-        .header DSLSubject
-        %li.bullet Subjects meant for stacking
+      .step{'data-y' => 3700}
+        %q Something has to be in charge
+        %pre.ruby
+          :preserve
+            class DSL
+              @@stack = []
+              def self.thing(name, opts = {}, &block)
+                @@stack.push( DSLSubject.new(name, opts) )
+                @@stack.last.instance_exec(&block)
+              end
+            end
+
+      %strong.step{'data-y' => 4200} Introducing DSLSubject
+      .step{'data-y' => 4500}
+        %q.med Subjects for stacking
         %pre.ruby
           :preserve
             class DSLSubject
@@ -78,26 +95,20 @@
               end
             end
 
-            class DSL
-              @@stack = []
-              def self.thing(name, opts = {}, &block)
-                @@stack.push( DSLSubject.new(name, opts) )
-                @@stack.last.instance_exec(&block)
-              end
-            end
+            
 
-      #six.step.slide{'data-y' => 3800}
-        .header DSLSubject
+      .step{'data-y' => 5200}
+        %strong DSLSubject
         %pre.ruby
           :preserve
             DSL.thing :foo do
               speak
             end
-        %li.bullet => "I am a DSLSubject named foo"
+            # => "I am a DSLSubject named foo"
 
-      #seven.step.slide{'data-y' => 4500}
-        .header Danger!
-        %li.bullet what if my DSLSubject wants do be able to do things?
+      .step.slide{'data-y' => 5900}
+        %q Danger!
+        %q.med what if my DSLSubject wants do be able to do things?
         %pre.ruby
           :preserve
             def DSLSubject.end_world! # with a bang
@@ -107,11 +118,10 @@
             DSL.thing :bar do
               end_world!
             end
-        %li.bullet suppose we didn't want users of our DSL to be able to carelessly end the world
+        %q.med suppose we didn't want users of our DSL to be able to carelessly end the world
 
-      #eight.step.slide{'data-y' => 5300}
-        .header DSLProxy
-        %li.bullet Every DSLSubject gets a DSLProxy
+      .step{'data-y' => 6600}
+        %q Every DSLSubject gets a DSLProxy
         %pre.ruby
           :preserve
             class DSLSubject
@@ -124,6 +134,9 @@
               end
             end
 
+      .step{'data-y' => 7200}
+        %pre.ruby
+          :preserve
             class DSLProxy
               def initialize(subject)
                 @subject = subject
@@ -134,8 +147,8 @@
               end
             end
 
-      #nine.step.slide{'data-y' => 6100}
-        .header DSLProxy
+      .step.slide{'data-y' => 8000}
+        %q DSLProxy
         %pre.ruby
           :preserve
             class DSL
@@ -150,9 +163,14 @@
               end_world! # => DSLSubject#file_for_world_ending_permit
             end
 
+      %q.step{'data-y' => 9000} What's next?
+      %q.med.step{'data-y' => 9200} Implement respond_to? and method_missing on your DSLProxy classes for advanced behavior
+      %q.med.step{'data-y' => 9350} Keep a centralized data structure (like Diesel's router) to hold state and let DSLSubjects oq on each other.
+      %q.med.step{'data-y' => 9450} Go nuts.  Metaprogram yourself to insanity.  Break all the rules.  Just hide it behind a nice interface.
+
 
     %script{src: 'js/impress.js'}
-    %script{src: 'js//jquery-1.7.1.min.js'}
+    %script{src: 'js/jquery-1.7.1.min.js'}
     %script{src: 'js/jquery.snippet.js'}
     %link{rel: 'stylesheet', href: 'css/diesel-prez.css'}
     %link{rel: 'stylesheet', href: 'css/jquery.snippet.css'}

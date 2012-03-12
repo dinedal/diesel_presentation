@@ -444,10 +444,9 @@ body     { pointer-events: none; }
 .slide {
     display: block;
 
-    width: 900px;
-    height: 700px;
+    width: 1000px;
 
-    padding: 40px 60px;
+    padding: 20px 40px;
 
     border-radius: 10px;
 
@@ -469,10 +468,9 @@ body     { pointer-events: none; }
 
 .slide q {
     display: block;
-    font-size: 50px;
-    line-height: 72px;
-
-    margin-top: 100px;
+    font-size: 40px;
+    font-weight: bold;
+    margin-top: 0px;
 }
 
 .slide q strong {
@@ -515,5 +513,18 @@ q.slide_title {
 }
 
 pre {
-    font-size:50%;
+    font-size: 25px;
+    padding: 0px !important;
+}
+
+q.med {
+    font-size: 30px;
+}
+
+q.small {
+    font-size: 20px;
+}
+
+li.small {
+    font-size: 25px;
 }
