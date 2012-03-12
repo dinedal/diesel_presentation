@@ -507,3 +507,6 @@ body     { pointer-events: none; }
     display: block;
 }
 
+q.slide_title {
+    font-size: 250%;
+}
