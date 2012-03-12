@@ -1,49 +1,5 @@
 <!doctype html>
 
-<!--
-
-    Welcome to the light side of the source, young padawan.
-
-    One step closer to learn something interesting you are...
-
-                               ____                  
-                            _.' :  `._               
-                        .-.'`.  ;   .'`.-.           
-               __      / : ___\ ;  /___ ; \      __  
-             ,'_ ""--.:__;".-.";: :".-.":__;.--"" _`,
-             :' `.t""--.. '<@.`;_  ',@:` ..--""j.' `;
-                  `:-.._J '-.-'L__ `-- ' L_..-;'     
-                    "-.__ ;  .-"  "-.  : __.-"       
-                        L ' /.------.\ ' J           
-                         "-.   "--"   .-"            
-                        __.l"-:_JL_;-";.__           
-                     .-j/'.;  ;""""  / .'\"-.        
-                   .' /:`. "-.:     .-" .';  `.      
-                .-"  / ;  "-. "-..-" .-"  :    "-.   
-             .+"-.  : :      "-.__.-"      ;-._   \  
-             ; \  `.; ;                    : : "+. ; 
-             :  ;   ; ;                    : ;  : \: 
-             ;  :   ; :                    ;:   ;  : 
-            : \  ;  :  ;                  : ;  /  :: 
-            ;  ; :   ; :                  ;   :   ;: 
-            :  :  ;  :  ;                : :  ;  : ; 
-            ;\    :   ; :                ; ;     ; ; 
-            : `."-;   :  ;              :  ;    /  ; 
-             ;    -:   ; :              ;  : .-"   : 
-             :\     \  :  ;            : \.-"      : 
-              ;`.    \  ; :            ;.'_..--  / ; 
-              :  "-.  "-:  ;          :/."      .'  :
-               \         \ :          ;/  __        :
-                \       .-`.\        /t-""  ":-+.   :
-                 `.  .-"    `l    __/ /`. :  ; ; \  ;
-                   \   .-" .-"-.-"  .' .'j \  /   ;/ 
-                    \ / .-"   /.     .'.' ;_:'    ;  
-                     :-""-.`./-.'     /    `.___.'   
-                           \ `t  ._  /               
-                            "-.t-._:'                
-
--->
-
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -72,6 +28,19 @@
     
     <link rel="shortcut icon" href="favicon.png" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+    <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.snippet.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/jquery.snippet.css" />
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+
+        $("pre.ruby").snippet("ruby",{style:"whatis",showNum:false});
+
+    });
+    </script>
 </head>
 
 <!--
@@ -139,66 +108,64 @@
         <q>A DSL for request routing and parameter validation.  Also: Racktivesupport1 web framework.</q>
     </div>
 
-    <div class="step slide" data-x="1000", data-y="-1500">
+    <div class="step" data-x="1100", data-y="-1000">
         <q>Features:</q>
+    </div>
+
+    <div class="step" data-x="1100", data-y="-950">
         <ul>
             <li>Sinatra-ish DSL</li>
+        </ul>
+    </div>
+
+    <div class="step" data-x="1100", data-y="-900">
+        <ul>
             <li>Completely describes valid requests</li>
+        </ul>
+    </div>
+
+    <div class="step" data-x="1100", data-y="-850">
+        <ul>
             <li>Generates API documentation</li>
+        </ul>
+    </div>
+
+    <div class="step" data-x="1100", data-y="-800">
+        <ul>
             <li>Super fast</li>
         </ul>
     </div>
 
+    <div class="step" data-x="1800", data-y="-1300" data-rotate="45">
+        <q>What does it look like?</q>
+    </div>
+
+    <div class="step" data-x="2500", data-y="-1800" data-rotate="90">
+        <pre class="ruby">get '/foo' do
+    required :bar do
+    type Array
+    disallowed_values %w{zilch zip nada}
+    end
+end</pre>
+    </div>
+
+    <div class="step" data-x="3700", data-y="-2600" data-rotate="135">
+        What would this look like in Sinatra?
+    </div>
+
+    <div class="step" data-x="3700", data-y="-2600" data-rotate="0">
+        <pre class="ruby">get '/foo' do
+    halt 404 unless params.has_key?(:foo)
+    params[:food] = params[:foo].split(' ')
+    halt 404 if params[:foo].any? do |v|
+        %w{zilch zip nada}.include?(v)
+    end
+end</pre>
+    </div>
+
 </div>
 
-<!--
-    
-    Hint is not related to impress.js in any way.
-    
-    But it can show you how to use impress.js features in creative way.
-    
-    When the presentation step is shown (selected) its element gets the class of "active" and the body element
-    gets the class based on active step id `impress-on-ID` (where ID is the step's id)... It may not be
-    so clear because of all these "ids" in previous sentence, so for example when the first step (the one with
-    the id of `bored`) is active, body element gets a class of `impress-on-bored`.
-    
-    This class is used by this hint below. Check CSS file to see how it's shown with delayed CSS animation when
-    the first step of presentation is visible for a couple of seconds.
-    
-    ...
-    
-    And when it comes to this piece of JavaScript below ... kids, don't do this at home ;)
-    It's just a quick and dirty workaround to get different hint text for touch devices.
-    In a real world it should be at least placed in separate JS file ... and the touch content should be
-    probably just hidden somewhere in HTML - not hard-coded in the script.
-    
-    Just sayin' ;)
-    
--->
-<div class="hint">
-    <p>Use a spacebar or arrow keys to navigate</p>
-</div>
-<script>
-if ("ontouchstart" in document.documentElement) { 
-    document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
-}
-</script>
 
-<!--
-    
-    Last, but not least.
-    
-    To make all described above really work, you need to include impress.js in the page.
-    I strongly encourage to minify it first.
-    
-    In here I just include full source of the script to make it more readable.
-    
-    You also need to call a `impress()` function to initialize impress.js presentation.
-    And you should do it in the end of your document. Not only because it's a good practice, but also
-    because it should be done when the whole document is ready.
-    Of course you can wrap it in any kind of "DOM ready" event, but I was too lazy to do so ;)
-    
--->
 <script src="js/impress.js"></script>
 <script>impress();</script>
 
