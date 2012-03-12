@@ -156,7 +156,7 @@ end</pre>
     <div class="step" data-x="3700", data-y="-2600" data-rotate="0">
         <pre class="ruby">get '/foo' do
     halt 404 unless params.has_key?(:foo)
-    params[:food] = params[:foo].split(' ')
+    params[:foo] = params[:foo].split(' ')
     halt 404 if params[:foo].any? do |v|
         %w{zilch zip nada}.include?(v)
     end
@@ -206,6 +206,61 @@ end</pre>
 
     <div class="step" data-x="5000", data-y="-2075" data-rotate="0">
         <q>And that conditions between parameters were simillar, but not identical...</q>
+    </div>
+
+    <div class="step" data-x="6000", data-y="900" data-rotate="0">
+        <q>Max size of the arrays varies on endpoint and query</q>
+    </div>
+    <div class="step" data-x="6000", data-y="1100" data-rotate="0">
+        <q>[:since, :until] can also accept times, but only uses the timepart on FB Post Insights endpoints</q>
+    </div>
+
+    <div class="step" data-x="9000", data-y="1100" data-rotate="0">
+        <q>How do you do all this validation in Sinatra?</q>
+    </div>
+
+    <div class="step" data-x="9000", data-y="1200" data-rotate="0">
+        <q>Mix a messy <a href="https://github.com/vitrue/trey/blob/develop/lib/trey/api_service/configuration.rb">module</a> in.</q>
+    </div>
+    
+    <div class="step" data-x="9000", data-y="1500" data-rotate="0">
+        <q>And in this new, what did you call it, Racktivesupport, framework thingy?</q>
+    </div>
+
+    <div class="step" data-x="9000", data-y="1650" data-rotate="0">
+        <q>Much cleaner, your validations are also your <a href="https://github.com/vitrue/trey/blob/diesel/lib/trey/api_service.rb">endpoints</a>.</q>
+    </div>
+
+    <div class="step" data-x="8000", data-y="1500" data-rotate="0">
+        <q>What it all means:</q>
+    </div>
+    <div class="step" data-x="8000", data-y="1650" data-rotate="0">
+        <q>Code completely describes the API</q>
+    </div>
+    <div class="step" data-x="8000", data-y="1800" data-rotate="0">
+        <q>Can generate docs of every route.</q>
+    </div>
+    <div class="step" data-x="8000", data-y="1950" data-rotate="0">
+        <q>Detailed errors on invalid queries</q>
+    </div>
+    <div class="step" data-x="8000", data-y="2100" data-rotate="0">
+        <q>Parameter based routing</q>
+    </div>
+    <div class="step" data-x="8000", data-y="2250" data-rotate="0">
+        <q>Rejects invalid input during routing</q>
+    </div>
+
+    <div class="step" data-x="8227", data-y="2255" data-scale="0.01">
+        <q>No SQL Injection</q>
+    </div>
+    <div class="step" data-x="8227", data-y="2256" data-scale="0.01">
+        <q>Or model mass-assignment</q>
+    </div>
+    <div class="step" data-x="8227", data-y="2257" data-scale="0.01">
+        <q>Or Dates like December 25th</q>
+    </div>
+    <div class="step" data-x="8227", data-y="2258" data-scale="0.01">
+        <q>Or Times like 25:25:25</q>
     </div>
 
 </div>
